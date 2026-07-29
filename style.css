@@ -16,44 +16,54 @@
   --light-text: #6B7280;
 }
 * { box-sizing: border-box; }
+html, body{
+  max-width: 100%;
+  overflow-x: hidden;
+}
 body{
   margin:0;
   font-family: 'Segoe UI', Arial, sans-serif;
   color: var(--text);
   background:#f2f2f2;
 }
+img{
+  max-width: 100%;
+}
 .page{
   max-width: 850px;
   margin: 20px auto;
   background:#fff;
-  display:flex;
   box-shadow: 0 0 15px rgba(0,0,0,0.15);
+  display: grid;
+  grid-template-columns: 32% 68%;
+  grid-template-areas:
+    "avatar header"
+    "sidebar content";
 }
 
 /* -------- SIDEBAR -------- */
-.sidebar{
-  width: 32%;
-  background: var(--gray-bg);
-  padding: 30px 22px;
-}
 .avatar{
+  grid-area: avatar;
+  background: var(--gray-bg);
+  padding: 30px 22px 0 22px;
+  display: flex;
+  justify-content: center;
+}
+.avatar img{
   width: 150px;
   height: 150px;
   border-radius: 50%;
   background: #c9cfd1;
-  margin: 0 auto 25px auto;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-/*.avatar svg{ width:55px; height:55px; fill:#fff; }*/
-.avatar img{
-  width: 100%;
-  height: 100%;
   object-fit: cover;
   object-position: center;
-  border-radius: 50%;
+  margin-bottom: 25px;
   display: block;
+}
+
+.sidebar{
+  grid-area: sidebar;
+  background: var(--gray-bg);
+  padding: 0 22px 30px 22px;
 }
 
 .side-section{ margin-bottom: 26px; }
@@ -84,6 +94,12 @@ body{
   font-size: 12.5px;
   color: var(--light-text);
 }
+.contact-item span,
+.contact-item a{
+  word-break: break-word;
+  overflow-wrap: break-word;
+  min-width: 0;
+}
 .contact-item svg{
   width:14px; height:14px; fill: var(--teal-dark); flex-shrink:0; margin-top:2px;
 }
@@ -105,10 +121,8 @@ body{
   display: block;
 }
 /* -------- MAIN CONTENT -------- */
-.main{
-  width: 68%;
-}
 .header{
+  grid-area: header;
   background: var(--dark);
   color:#fff;
   padding: 30px 34px;
@@ -128,6 +142,7 @@ body{
 }
 
 .content{
+  grid-area: content;
   padding: 26px 34px;
 }
 .section{ margin-bottom: 26px; }
@@ -202,17 +217,22 @@ body{
   }
 }
 
-/* Mobile: stack sidebar on top of main content */
+/* Mobile: avatar -> header -> sidebar -> content */
 @media (max-width: 700px){
   .page{
-    flex-direction: column;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "avatar"
+      "header"
+      "sidebar"
+      "content";
     box-shadow: none;
   }
-  .sidebar, .main{
-    width: 100%;
+  .avatar{
+    padding: 24px 20px 0 20px;
   }
   .sidebar{
-    padding: 24px 20px;
+    padding: 0 20px 24px 20px;
   }
   .header{
     padding: 24px 20px;
@@ -245,7 +265,7 @@ body{
   .section h2{
     font-size: 15px;
   }
-  .avatar{
+  .avatar img{
     width: 110px;
     height: 110px;
   }
